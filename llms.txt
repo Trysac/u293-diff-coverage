@@ -1,0 +1,16 @@
+# diff-coverage
+
+> Measure test coverage of the lines a change adds or modifies by joining a unified diff with Cobertura XML or coverage.py JSON, with safe XML, path matching and a threshold Python package `trysac-diff-coverage`, import name `diff_coverage`, MIT licensed,
+> Python >= 3.10, no runtime dependencies.
+
+## Docs
+
+- [README](README.md): problem, install, usage example
+- [AGENTS](AGENTS.md): commands, folder map, conventions, limits
+- [Architecture](docs/ARCHITECTURE.md): shape of the package and its public API
+- [Testing](docs/TESTING.md): how to run and extend the tests
+
+## Optional
+
+- [Stack](docs/STACK.md): tools used and discarded
+- [Changelog](CHANGELOG.md): release history
