@@ -9,4 +9,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Added `diff_coverage` package that measures coverage of changed lines by joining unified diffs with Cobertura XML or coverage.py JSON, with safe XML parsing, threshold enforcement, and CLI.
 - Initial project structure from the factory utility template.

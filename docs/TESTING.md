@@ -3,27 +3,22 @@
 ## Running
 
 ```sh
-uv run pytest --cov=diff_coverage   # tests with coverage report
-uv run python scripts/check.py      # every gate, as CI and the factory run it
+pytest tests/test_diff_coverage.py
 ```
 
 ## Policy
 
-- Branch coverage of `src/diff_coverage` must stay at or above 80 %; the gate fails below it.
-- Tests exercise the public API (`import diff_coverage`) and assert every observable effect:
-  return values, raised exceptions and their messages.
-- Each bug fix starts with a failing test that reproduces it.
-- Tests are deterministic: no network, no wall clock, no dependence on test order.
+The supplied tests use pytest and exercise the public API. `tests/test_diff_coverage.py` imports `DiffCoverageError`, `diff_coverage`, `load_cobertura`, `load_coverage_json`, `parse_diff`, `render`, and `Decimal`. The cases construct inputs as in-memory strings; no external service or network is required.
 
 ## Tiers
 
-- Local tier (every gate run, coverage measured here): unit and property tests, plus conformance on small
-  fixtures kept in the repository.
-- CI tier: conformance that needs an external tool or a download. Mark them `@pytest.mark.conformance`; `scripts/check.py` deselects them locally
-  (unless `FABRICA_CI=1`). The CI `conformance` job sets `FABRICA_CI=1` and runs the full suite. Tools are installed
-  by the optional `ci/conformance-setup.sh` (bash, CI only; verify every download against a pinned SHA-256), and
-  tagged tests skip cleanly when their tool is missing.
+The supplied code contains a single pytest module, `tests/test_diff_coverage.py`. No local/CI tier split, conformance marker, or external-tool setup is present in the supplied files.
 
 ## Layout
 
-`tests/test_<module>.py` mirrors each public module. Shared fixtures go in `tests/conftest.py`.
+`tests/test_diff_coverage.py` contains the tests. The visible cases cover:
+
+- `parse_diff`: `test_parse_diff_basic`, `test_parse_diff_deleted_file_skipped`, `test_parse_diff_renamed_file`, `test_parse_diff_multiple_hunks`, `test_parse_diff_crlf`, `test_parse_diff_no_newline_marker_ignored`, `test_parse_diff_added_line_starting_with_plus_plus`, `test_parse_diff_removed_line_starting_with_minus_minus`, `test_parse_diff_invalid_hunk`, `test_parse_diff_max_bytes`.
+- Cobertura loading: `test_load_cobertura_basic`, `test_load_cobertura_windows_path_and_stripping`, `test_load_cobertura_multiple_classes_any_covered`, `test_load_cobertura_unsafe_xml_doctype`, `test_load_cobertura_unsafe_xml_entity`, `test_load_cobertura_malformed_xml`, `test_load_cobertura_max_bytes`.
+
+No other test files or `tests/conftest.py` appear in the supplied code.
